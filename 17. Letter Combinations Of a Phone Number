@@ -1,0 +1,39 @@
+import java.util.*;
+
+public class Solution {
+    public List<String> letterCombinations(String digits) {
+        List<String> result = new ArrayList<>();
+        if (digits == null || digits.length() == 0) {
+            return result;  // Return an empty list if the input string is empty
+        }
+        
+        // Mapping of digits to letters (as on a phone keypad)
+        String[] mapping = {
+            "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"
+        };
+        
+        // Helper function to generate combinations
+        backtrack(digits, 0, new StringBuilder(), result, mapping);
+        
+        return result;
+    }
+
+    // Backtracking function to generate all combinations
+    private void backtrack(String digits, int index, StringBuilder current, List<String> result, String[] mapping) {
+        // If the current combination is of the correct length, add it to the result
+        if (index == digits.length()) {
+            result.add(current.toString());
+            return;
+        }
+        
+        // Get the letters corresponding to the current digit
+        String letters = mapping[digits.charAt(index) - '0'];
+        
+        // Iterate over each letter and recurse to the next digit
+        for (char letter : letters.toCharArray()) {
+            current.append(letter);  // Add the letter to the current combination
+            backtrack(digits, index + 1, current, result, mapping);  // Recurse for the next digit
+            current.deleteCharAt(current.length() - 1);  // Backtrack by removing the last letter
+        }
+    }
+}
