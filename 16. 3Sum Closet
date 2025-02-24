@@ -1,0 +1,43 @@
+import java.util.*;
+
+public class Solution {
+    public int threeSumClosest(int[] nums, int target) {
+        // Sort the array to use the two-pointer approach
+        Arrays.sort(nums);
+        
+        int closestSum = Integer.MAX_VALUE;
+        
+        // Traverse through the array with the first pointer
+        for (int i = 0; i < nums.length - 2; i++) {
+            // Skip duplicate elements for the first number
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            
+            int left = i + 1;
+            int right = nums.length - 1;
+            
+            // Two-pointer approach to find the closest sum
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                
+                // Update closestSum if the current sum is closer to the target
+                if (Math.abs(sum - target) < Math.abs(closestSum - target)) {
+                    closestSum = sum;
+                }
+                
+                // Move the pointers based on the sum comparison with target
+                if (sum < target) {
+                    left++;
+                } else if (sum > target) {
+                    right--;
+                } else {
+                    // If we find an exact match, return the sum immediately
+                    return sum;
+                }
+            }
+        }
+        
+        return closestSum;
+    }
+}
