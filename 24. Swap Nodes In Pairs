@@ -1,0 +1,25 @@
+public class Solution {
+    public ListNode swapPairs(ListNode head) {
+        // Create a dummy node to simplify edge cases (like empty list or single node)
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode current = dummy;
+
+        // Traverse the list in pairs and swap nodes
+        while (current.next != null && current.next.next != null) {
+            ListNode first = current.next;
+            ListNode second = current.next.next;
+
+            // Swap the two nodes
+            first.next = second.next;
+            second.next = first;
+            current.next = second;
+
+            // Move to the next pair
+            current = first;
+        }
+
+        // Return the new head, which is the next node of dummy
+        return dummy.next;
+    }
+}
