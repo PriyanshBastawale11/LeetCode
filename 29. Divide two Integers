@@ -1,0 +1,54 @@
+class Solution {
+    public int divide(int dividend, int divisor) {
+        // Handle edge cases for overflow
+        if (dividend == Integer.MIN_VALUE && divisor == -1) {
+            return Integer.MAX_VALUE; // Overflow case
+        }
+        if (dividend == Integer.MIN_VALUE && divisor == 1) {
+            return Integer.MIN_VALUE;
+        }
+
+        // Determine the sign of the result
+        boolean isNegative = (dividend < 0) ^ (divisor < 0);
+
+        // Work with positive values for simplicity
+        long absDividend = Math.abs((long) dividend);
+        long absDivisor = Math.abs((long) divisor);
+
+        // Perform division using subtraction
+        int quotient = 0;
+        while (absDividend >= absDivisor) {
+            long tempDivisor = absDivisor;
+            int multiple = 1;
+
+            // Double the divisor as long as it fits within the dividend
+            while (absDividend >= (tempDivisor << 1)) {
+                tempDivisor <<= 1;
+                multiple <<= 1;
+            }
+
+            // Subtract the largest doubled divisor and add the corresponding multiple
+            absDividend -= tempDivisor;
+            quotient += multiple;
+        }
+
+        // Apply the sign to the result
+        return isNegative ? -quotient : quotient;
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+
+        // Example 1
+        int dividend1 = 10, divisor1 = 3;
+        System.out.println("Output: " + solution.divide(dividend1, divisor1)); // Output: 3
+
+        // Example 2
+        int dividend2 = 7, divisor2 = -3;
+        System.out.println("Output: " + solution.divide(dividend2, divisor2)); // Output: -2
+
+        // Example 3 (Edge case)
+        int dividend3 = Integer.MIN_VALUE, divisor3 = -1;
+        System.out.println("Output: " + solution.divide(dividend3, divisor3)); // Output: 2147483647 (MAX_INT)
+    }
+}
