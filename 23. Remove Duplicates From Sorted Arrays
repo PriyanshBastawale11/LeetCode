@@ -1,0 +1,47 @@
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+
+        // Pointer to track unique elements
+        int uniqueIndex = 0;
+
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] != nums[uniqueIndex]) {
+                uniqueIndex++;
+                nums[uniqueIndex] = nums[i];
+            }
+        }
+
+        // The number of unique elements is uniqueIndex + 1
+        return uniqueIndex + 1;
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+
+        // Example 1
+        int[] nums1 = {1, 1, 2};
+        int k1 = solution.removeDuplicates(nums1);
+        System.out.println("Output: " + k1 + ", nums = " + arrayToString(nums1, k1)); // Output: 2, nums = [1, 2]
+
+        // Example 2
+        int[] nums2 = {0, 0, 1, 1, 1, 2, 2, 3, 3, 4};
+        int k2 = solution.removeDuplicates(nums2);
+        System.out.println("Output: " + k2 + ", nums = " + arrayToString(nums2, k2)); // Output: 5, nums = [0, 1, 2, 3, 4]
+    }
+
+    // Helper method to format the array output
+    private static String arrayToString(int[] nums, int length) {
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < length; i++) {
+            sb.append(nums[i]);
+            if (i < length - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+}
